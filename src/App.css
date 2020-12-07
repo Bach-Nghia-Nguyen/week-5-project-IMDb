@@ -1,0 +1,12 @@
+/* MovieDetail style */
+.movie-info {
+  border: 2px gray solid;
+  padding: 10px 20px;
+  margin: 0 20px;
+  border-radius: 10px;
+}
+
+.movie-info .movie-title {
+  text-transform: uppercase;
+  font-weight: bold;
+}

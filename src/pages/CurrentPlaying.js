@@ -5,8 +5,12 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 import { Badge, Card, Container, Button } from "react-bootstrap";
 
-const movieApiKey = "542198296548169a3515d9201b75a006";
-const nowPlayingURL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${movieApiKey}`;
+import api from "../apiService";
+
+import { useHistory } from "react-router-dom";
+
+const movieApiKey = process.env.REACT_APP_MOVIE_API_KEY;
+
 const MoviePosterBaseURL = `https://image.tmdb.org/t/p/w500`;
 
 const CurrentPlaying = () => {
@@ -14,18 +18,18 @@ const CurrentPlaying = () => {
   const [genres, setGenres] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const history = useHistory();
+
   useEffect(() => {
-    let url = nowPlayingURL;
+    let url = `/movie/now_playing?language=en-US&page=1`;
     const fetchMovieData = async () => {
       try {
-        const response = await fetch(url);
-        const data = await response.json();
+        const response = await api.get(url);
+        const data = response.data;
 
         setMovies(data.results);
 
         setErrorMessage(null);
-        console.log(response);
-        console.log(data);
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -34,12 +38,12 @@ const CurrentPlaying = () => {
   }, []);
 
   useEffect(() => {
-    let url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${movieApiKey}&language=en-US`;
+    let url = `/genre/movie/list?language=en-US`;
     const fetchMovieGenreData = async () => {
       try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
+        const response = await api.get(url);
+        const data = response.data;
+
         setGenres(data.genres);
       } catch (error) {
         setErrorMessage(error.message);
@@ -48,13 +52,21 @@ const CurrentPlaying = () => {
     fetchMovieGenreData();
   }, []);
 
+  const showMovieDetail = (movieId) => {
+    history.push(`detail/${movieId}`);
+  };
+
   return (
     <Container>
       <div className="d-flex justify-content-around flex-wrap">
         {movies.map((movie) => (
-          <Card key={movie.id} style={{ width: "18rem" }} className="mb-5">
+          <Card
+            key={movie.id}
+            style={{ width: "18rem" }}
+            className="mb-5"
+            onClick={() => showMovieDetail(movie.id)}
+          >
             {/* Movie Poster */}
-
             <Card.Img
               variant="top"
               src={`${MoviePosterBaseURL}${movie.poster_path}`}

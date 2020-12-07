@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+// fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,9 +8,12 @@ import { Badge, Card, Container, Button } from "react-bootstrap";
 
 // import components
 import PaginationBar from "../components/PaginationBar";
+// api
+import api from "../apiService";
+// import router
+import { useHistory } from "react-router-dom";
 
-// url
-const movieApiKey = "542198296548169a3515d9201b75a006";
+const movieApiKey = process.env.REACT_APP_MOVIE_API_KEY;
 
 const MoviePosterBaseURL = `https://image.tmdb.org/t/p/w500`;
 
@@ -22,20 +25,22 @@ const HomePage = () => {
   const [pageNum, setPageNum] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(1);
 
+  const history = useHistory();
+
+  // get movies data
   useEffect(() => {
-    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${movieApiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNum}`;
+    console.log(movieApiKey);
+    let url = `/discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNum}`;
     const fetchMovieData = async () => {
       try {
-        const response = await fetch(url);
-        const data = await response.json();
+        const response = await api.get(url);
+        const data = response.data;
 
         setMovies(data.results);
         setPageNum(data.page);
         setTotalPageNum(data.total_pages);
 
         setErrorMessage(null);
-        console.log(response);
-        console.log(data);
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -43,13 +48,13 @@ const HomePage = () => {
     fetchMovieData();
   }, [pageNum]);
 
+  // get movie genres data
   useEffect(() => {
-    let url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${movieApiKey}&language=en-US`;
+    let url = `genre/movie/list?language=en-US`;
     const fetchMovieGenreData = async () => {
       try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
+        const response = await api.get(url);
+        const data = response.data;
         setGenres(data.genres);
       } catch (error) {
         setErrorMessage(error.message);
@@ -57,6 +62,10 @@ const HomePage = () => {
     };
     fetchMovieGenreData();
   }, []);
+
+  const showMovieDetail = (movieId) => {
+    history.push(`detail/${movieId}`);
+  };
 
   return (
     <Container>
@@ -67,7 +76,12 @@ const HomePage = () => {
       />
       <div className="d-flex justify-content-around flex-wrap">
         {movies.map((movie) => (
-          <Card key={movie.id} style={{ width: "18rem" }} className="mb-5">
+          <Card
+            key={movie.id}
+            style={{ width: "18rem" }}
+            className="mb-5"
+            onClick={() => showMovieDetail(movie.id)}
+          >
             {/* Movie Poster */}
 
             <Card.Img
