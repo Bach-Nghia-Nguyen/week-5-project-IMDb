@@ -9,14 +9,14 @@ import api from "../apiService";
 
 import { useHistory } from "react-router-dom";
 
-const movieApiKey = process.env.REACT_APP_MOVIE_API_KEY;
+// const movieApiKey = process.env.REACT_APP_MOVIE_API_KEY;
 
 const MoviePosterBaseURL = `https://image.tmdb.org/t/p/w500`;
 
 const CurrentPlaying = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
 
   const history = useHistory();
 
@@ -29,9 +29,9 @@ const CurrentPlaying = () => {
 
         setMovies(data.results);
 
-        setErrorMessage(null);
+        // setErrorMessage(null);
       } catch (error) {
-        setErrorMessage(error.message);
+        // setErrorMessage(error.message);
       }
     };
     fetchMovieData();
@@ -46,7 +46,7 @@ const CurrentPlaying = () => {
 
         setGenres(data.genres);
       } catch (error) {
-        setErrorMessage(error.message);
+        // setErrorMessage(error.message);
       }
     };
     fetchMovieGenreData();

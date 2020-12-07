@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import "./../App.css";
-import { Media, Badge } from "react-bootstrap";
+import { Media } from "react-bootstrap";
 
-import { generatePath, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import api from "../apiService";
 
@@ -14,9 +14,9 @@ const MovieDetail = () => {
   const params = useParams();
   const movieId = params.id;
 
-  const [genres, setGenres] = useState([]);
+  // const [genres, setGenres] = useState([]);
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -27,19 +27,19 @@ const MovieDetail = () => {
   }, [movieId]);
 
   // get movie genres data
-  useEffect(() => {
-    let url = `genre/movie/list?language=en-US`;
-    const fetchMovieGenreData = async () => {
-      try {
-        const response = await api.get(url);
-        const data = response.data;
-        setGenres(data.genres);
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-    };
-    fetchMovieGenreData();
-  }, []);
+  // useEffect(() => {
+  //   let url = `genre/movie/list?language=en-US`;
+  //   const fetchMovieGenreData = async () => {
+  //     try {
+  //       const response = await api.get(url);
+  //       const data = response.data;
+  //       setGenres(data.genres);
+  //     } catch (error) {
+  //       setErrorMessage(error.message);
+  //     }
+  //   };
+  //   fetchMovieGenreData();
+  // }, []);
 
   return (
     <Media className="d-flex justify-content-around align-items-center movie-info">

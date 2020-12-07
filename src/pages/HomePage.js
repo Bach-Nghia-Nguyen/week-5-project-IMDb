@@ -20,7 +20,7 @@ const MoviePosterBaseURL = `https://image.tmdb.org/t/p/w500`;
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
 
   const [pageNum, setPageNum] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(1);
@@ -40,9 +40,9 @@ const HomePage = () => {
         setPageNum(data.page);
         setTotalPageNum(data.total_pages);
 
-        setErrorMessage(null);
+        // setErrorMessage(null);
       } catch (error) {
-        setErrorMessage(error.message);
+        // setErrorMessage(error.message);
       }
     };
     fetchMovieData();
@@ -57,7 +57,7 @@ const HomePage = () => {
         const data = response.data;
         setGenres(data.genres);
       } catch (error) {
-        setErrorMessage(error.message);
+        // setErrorMessage(error.message);
       }
     };
     fetchMovieGenreData();
