@@ -9,30 +9,21 @@ import api from "../apiService";
 
 import { useHistory } from "react-router-dom";
 
-// const movieApiKey = process.env.REACT_APP_MOVIE_API_KEY;
-
 const MoviePosterBaseURL = `https://image.tmdb.org/t/p/w500`;
 
 const CurrentPlaying = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  // const [errorMessage, setErrorMessage] = useState("");
 
   const history = useHistory();
 
   useEffect(() => {
     let url = `/movie/now_playing?language=en-US&page=1`;
     const fetchMovieData = async () => {
-      try {
-        const response = await api.get(url);
-        const data = response.data;
+      const response = await api.get(url);
+      const data = response.data;
 
-        setMovies(data.results);
-
-        // setErrorMessage(null);
-      } catch (error) {
-        // setErrorMessage(error.message);
-      }
+      setMovies(data.results);
     };
     fetchMovieData();
   }, []);
@@ -40,14 +31,10 @@ const CurrentPlaying = () => {
   useEffect(() => {
     let url = `/genre/movie/list?language=en-US`;
     const fetchMovieGenreData = async () => {
-      try {
-        const response = await api.get(url);
-        const data = response.data;
+      const response = await api.get(url);
+      const data = response.data;
 
-        setGenres(data.genres);
-      } catch (error) {
-        // setErrorMessage(error.message);
-      }
+      setGenres(data.genres);
     };
     fetchMovieGenreData();
   }, []);

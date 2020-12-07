@@ -20,7 +20,6 @@ const MoviePosterBaseURL = `https://image.tmdb.org/t/p/w500`;
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  // const [errorMessage, setErrorMessage] = useState("");
 
   const [pageNum, setPageNum] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(1);
@@ -32,18 +31,12 @@ const HomePage = () => {
     console.log(movieApiKey);
     let url = `/discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNum}`;
     const fetchMovieData = async () => {
-      try {
-        const response = await api.get(url);
-        const data = response.data;
+      const response = await api.get(url);
+      const data = response.data;
 
-        setMovies(data.results);
-        setPageNum(data.page);
-        setTotalPageNum(data.total_pages);
-
-        // setErrorMessage(null);
-      } catch (error) {
-        // setErrorMessage(error.message);
-      }
+      setMovies(data.results);
+      setPageNum(data.page);
+      setTotalPageNum(data.total_pages);
     };
     fetchMovieData();
   }, [pageNum]);
@@ -52,13 +45,9 @@ const HomePage = () => {
   useEffect(() => {
     let url = `genre/movie/list?language=en-US`;
     const fetchMovieGenreData = async () => {
-      try {
-        const response = await api.get(url);
-        const data = response.data;
-        setGenres(data.genres);
-      } catch (error) {
-        // setErrorMessage(error.message);
-      }
+      const response = await api.get(url);
+      const data = response.data;
+      setGenres(data.genres);
     };
     fetchMovieGenreData();
   }, []);
